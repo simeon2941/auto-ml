@@ -3,6 +3,10 @@ import pandas as pd
 import os
 import pandas_profiling  
 from streamlit_pandas_profiling import st_profile_report
+from operator import index
+import plotly.express as px
+from pycaret.regression import setup, compare_models, pull, save_model, load_model
+
 
 with st.sidebar:
     st.image("https://images.pexels.com/photos/373543/pexels-photo-373543.jpeg?cs=srgb&dl=pexels-pixabay-373543.jpg&fm=jpg")
@@ -24,7 +28,17 @@ elif choice == "Profiling":
     st.title("Automated Data Analysis")
     profile_report = df.profile_report()
     st_profile_report(profile_report)
-elif choice == "ML":
-    pass
-elif choice == "Download":
-    pass
+if choice == "Modelling": 
+    chosen_target = st.selectbox('Choose the Target Column', df.columns)
+    if st.button('Run Modelling'): 
+        setup(df, target=chosen_target, silent=True)
+        setup_df = pull()
+        st.dataframe(setup_df)
+        best_model = compare_models()
+        compare_df = pull()
+        st.dataframe(compare_df)
+        save_model(best_model, 'best_model')
+
+if choice == "Download": 
+    with open('best_model.pkl', 'rb') as f: 
+        st.download_button('Download Model', f, file_name="best_model.pkl")
