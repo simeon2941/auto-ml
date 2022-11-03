@@ -11,7 +11,7 @@ from pycaret.regression import setup, compare_models, pull, save_model, load_mod
 with st.sidebar:
     st.image("https://images.pexels.com/photos/373543/pexels-photo-373543.jpeg?cs=srgb&dl=pexels-pixabay-373543.jpg&fm=jpg")
     st.title("AutML")
-    choice = st.radio("Navitation",["Upload", "Profiling", "ML", "Download"])
+    choice = st.radio("Navitation",["Upload", "Profiling", "Modelling", "Download"])
     st.info("This app allows you to build an automated ML pipeline")
 
 if os.path.exists("sourcedata.csv"):
